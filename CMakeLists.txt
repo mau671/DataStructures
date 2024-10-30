@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.29)
-project(Diccionarios)
+project(DataStructures)
 
 cmake_minimum_required(VERSION 3.29)
-project(Diccionarios)
+project(DataStructures)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -10,39 +10,39 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(include)
 
 # Agregar archivos de encabezado y fuentes organizados en carpetas
-add_executable(Diccionarios
+add_executable(DataStructures
         # Archivos de implementación en `src`
         src/Diccionarios.cpp
 
         # Archivos de encabezado de estructuras abstractas
-        include/Estructuras/Abstractas/Dictionary.h
-        include/Estructuras/Abstractas/List.h
+        include/Structures/Abstract/Dictionary.h
+        include/Structures/Abstract/List.h
 
         # Archivos de encabezado de estructuras concretas: Diccionarios
-        include/Estructuras/Concretas/Diccionarios/AVLDictionary.h
-        include/Estructuras/Concretas/Diccionarios/BSTDictionary.h
-        include/Estructuras/Concretas/Diccionarios/HashTable.h
-        include/Estructuras/Concretas/Diccionarios/UnsortedArrayDictionary.h
+        include/Structures/Implementations/Dictionaries/AVLDictionary.h
+        include/Structures/Implementations/Dictionaries/BSTDictionary.h
+        include/Structures/Implementations/Dictionaries/HashTable.h
+        include/Structures/Implementations/Dictionaries/UnsortedArrayDictionary.h
 
         # Archivos de encabezado de estructuras concretas: Listas
-        include/Estructuras/Concretas/Listas/ArrayList.h
-        include/Estructuras/Concretas/Listas/DLinkedList.h
+        include/Structures/Implementations/Lists/ArrayList.h
+        include/Structures/Implementations/Lists/DLinkedList.h
 
         # Archivos de encabezado de estructuras concretas: Árboles
-        include/Estructuras/Concretas/Arboles/AVLTree.h
-        include/Estructuras/Concretas/Arboles/BSTree.h
-        include/Estructuras/Concretas/Arboles/SplayTree.h
+        include/Structures/Implementations/Trees/AVLTree.h
+        include/Structures/Implementations/Trees/BSTree.h
+        include/Structures/Implementations/Trees/SplayTree.h
 
         # Archivos de nodos
-        include/Estructuras/Nodos/BSTNode.h
-        include/Estructuras/Nodos/DNode.h
-        include/Estructuras/Nodos/SNode.h
+        include/Structures/Common/Nodes/BSTNode.h
+        include/Structures/Common/Nodes/DNode.h
+        include/Structures/Common/Nodes/SNode.h
 
         # Archivos adicionales
-        include/Estructuras/Concretas/KVPair.h
+        include/Structures/Common/KVPair.h
 )
 
 # Incluir directorios con rutas cortas
-target_include_directories(Diccionarios PRIVATE
+target_include_directories(DataStructures PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )

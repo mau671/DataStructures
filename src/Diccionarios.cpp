@@ -3,14 +3,14 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <ctime>
-#include "Estructuras/Concretas/Diccionarios/UnsortedArrayDictionary.h"
-#include "Estructuras/Concretas/Diccionarios/HashTable.h"
-#include "Estructuras/Concretas/Arboles/BSTree.h"
-#include "Estructuras/Concretas/Diccionarios/BSTDictionary.h"
-#include "Estructuras/Concretas/Arboles/AVLTree.h"
-#include "Estructuras/Concretas/Diccionarios/AVLDictionary.h"
-#include "Estructuras/Concretas/Arboles/SplayTree.h"
-#include "Estructuras/Abstractas/List.h"
+#include "Structures/Implementations/Dictionaries/UnsortedArrayDictionary.h"
+#include "Structures/Implementations/Dictionaries/HashTable.h"
+#include "Structures/Implementations/Trees/BSTree.h"
+#include "Structures/Implementations/Dictionaries/BSTDictionary.h"
+#include "Structures/Implementations/Trees/AVLTree.h"
+#include "Structures/Implementations/Dictionaries/AVLDictionary.h"
+#include "Structures/Implementations/Trees/SplayTree.h"
+#include "Structures/Abstract/List.h"
 
 using std::string;
 using std::runtime_error;
@@ -18,7 +18,7 @@ using std::cout;
 using std::endl;
 
 int mainTree() {
-	srand(time(0));
+	srand(static_cast<unsigned int>(time(0)));
 	AVLTree<int>* arbolAVL = new AVLTree<int>();
 	SplayTree<int>* arbolSplay = new SplayTree<int>();
 	for (int i = 0; i < 100; i++) {
