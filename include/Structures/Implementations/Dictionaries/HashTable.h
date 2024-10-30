@@ -10,6 +10,7 @@
 #include "Structures/Common/KVPair.h"
 #include "Structures/Abstract/Dictionary.h"
 
+
 using std::runtime_error;
 using std::cout;
 using std::endl;
@@ -23,10 +24,10 @@ private:
     int size;
     double maxLoad;
     double minLoad;
-    DLinkedList<int> *primes; // lista de primos para el tama�o del arreglo
+    DLinkedList<int> *primes; // lista de primos para el tamaño del arreglo
 
-    // carga n�meros primos para ser usados como capacidad
-    // m�xima de la tabla. Inicia en 1021.
+    // carga números primos para ser usados como capacidad
+    // máxima de la tabla. Inicia en 1021.
     void initPrimes() {
         primes = new DLinkedList<int>();
         primes->append(61);
@@ -52,14 +53,14 @@ private:
         return (double)size / (double)max;
     }
 
-    // redimensiona la tabla para hacerla m�s grande
+    // redimensiona la tabla para hacerla más grande
     void reHashUp() {
         primes->next();
         int newMax = primes->getElement();
         reHash(newMax);
     }
 
-    // redimensiona la tabla para hacerla m�s peque�a
+    // redimensiona la tabla para hacerla más pequeña
     void reHashDown() {
         primes->previous();
         int newMax = primes->getElement();
@@ -67,7 +68,7 @@ private:
             reHash(newMax);
     }
 
-    // redimensiona la tabla al tama�o indicado
+    // redimensiona la tabla al tamaño indicado
     void reHash(int newMax) {
         cout << "Rehashing, new size: " << newMax << endl;
         int oldMax = max;
@@ -86,7 +87,7 @@ private:
 
     // revisa que una llave no exista en la estructura
     // si la encuentra lanza error
-    // si no la encuentra la posici�n actual queda al final
+    // si no la encuentra la posición actual queda al final
     void checkNotExisting(K key) {
         KVPair<K, V> p(key);
         if (buckets[h(key)].contains(p))
@@ -94,7 +95,7 @@ private:
     }
 
     // revisa que una llave exista en la estructura
-    // si la encuentra deja la posici�n actual apuntando
+    // si la encuentra deja la posición actual apuntando
     // a la llave buscada
     // si no la encuentra lanza error
     void checkExisting(K key) {
@@ -144,9 +145,11 @@ public:
     }
     void insert(K key, V value) {
         if (loadFactor() > maxLoad)
+            cout << "Load factor: " << loadFactor() << endl;
             reHashUp();
         checkNotExisting(key);
         KVPair<K, V> p(key, value);
+
         buckets[h(key)].append(p);
         size++;
     }

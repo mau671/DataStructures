@@ -127,7 +127,7 @@ public:
 		return indexOf(element, 0) != -1;
 	}
 
-	void reverese() {
+	void reverse() {
 		E* newElements = new E[max];
 		for (int i = 0; i < size; i++)
 			newElements[i] = elements[size - i - 1];
