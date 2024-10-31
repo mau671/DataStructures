@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <chrono>
 #include "Structures/Implementations/Dictionaries/AVLDictionary.h"
 #include "Structures/Abstract/List.h"
 
@@ -56,5 +57,26 @@ int main() {
     delete valores;
 
     delete nombres;
+
+    // Crear diccionario AVL con int, int
+    Dictionary<int, int>* numeros = new AVLDictionary<int, int>();
+
+
+    // Obtén el tiempo inicial
+    auto start = std::chrono::high_resolution_clock::now();
+
+    // Código que quieres medir
+    int i = 0;
+    for (int i = 0; i <= 1000000; ++i); {
+        numeros->insert(i, i);
+    }
+
+    // Obtén el tiempo final
+    auto end = std::chrono::high_resolution_clock::now();
+
+    // Calcula la duración en microsegundos
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+
+    std::cout << "Duración: " << duration << " microsegundos" << std::endl;
     return 0;
 }

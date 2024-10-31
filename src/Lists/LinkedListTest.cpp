@@ -1,13 +1,13 @@
 #include <iostream>
-#include "Structures/Implementations/Lists/ArrayList.h"
+#include "Structures/Implementations/Lists/LinkedList.h"
 
 using std::cout;
 using std::endl;
 
 int main() {
-    List<int>* list = new ArrayList<int>();
+    List<int>* list = new LinkedList<int>();
 
-    cout << "Testing ArrayList:" << endl;
+    cout << "Testing LinkedList:" << endl;
     for (int i = 0; i < 10; i++) {
         list->append(i);
     }

@@ -1,15 +1,16 @@
 #include <iostream>
-#include "Structures/Implementations/Lists/ArrayList.h"
+
+#include "Structures/Implementations/Lists/DCircleList.h"
 
 using std::cout;
 using std::endl;
 
 int main() {
-    List<int>* list = new ArrayList<int>();
+    DCircleList<int>* list = new DCircleList<int>();
 
-    cout << "Testing ArrayList:" << endl;
+    cout << "Testing DCircleList:" << endl;
     for (int i = 0; i < 10; i++) {
-        list->append(i);
+        list->insert(i);
     }
     list->print();
 
@@ -17,7 +18,6 @@ int main() {
     list->print();
 
     cout << "Inserting element at position 0" << endl;
-    list->goToStart();
     list->insert(100);
     list->print();
 

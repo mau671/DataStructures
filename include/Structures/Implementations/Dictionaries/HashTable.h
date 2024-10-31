@@ -10,7 +10,6 @@
 #include "Structures/Common/KVPair.h"
 #include "Structures/Abstract/Dictionary.h"
 
-
 using std::runtime_error;
 using std::cout;
 using std::endl;
@@ -117,7 +116,7 @@ private:
         int result = 0;
         char* bytes = reinterpret_cast<char*>(&key);
         for (unsigned int i = 0; i < sizeof(T); i++) {
-            result += bytes[i] * pow(a, i);
+            result += static_cast<int>(bytes[i] * pow(a, i));
         }
         return result;
     }
@@ -145,11 +144,9 @@ public:
     }
     void insert(K key, V value) {
         if (loadFactor() > maxLoad)
-            cout << "Load factor: " << loadFactor() << endl;
             reHashUp();
         checkNotExisting(key);
         KVPair<K, V> p(key, value);
-
         buckets[h(key)].append(p);
         size++;
     }

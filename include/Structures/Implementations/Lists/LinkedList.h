@@ -218,4 +218,12 @@ public:
             temp = temp->next;
         }
     }
+
+    void set(E element) {
+        if (size == 0)
+            throw runtime_error("List is empty");
+        if (current == tail)
+            throw runtime_error("No current element.");
+        current->next->element = element;
+    }
 };

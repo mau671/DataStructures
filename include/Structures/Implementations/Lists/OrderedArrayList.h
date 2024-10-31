@@ -80,5 +80,8 @@ public:
 		data->extend(other);
 	}
 
+	void set(E element) {
+		data->set(element);
+	}
 };
 
