@@ -147,7 +147,14 @@ public:
 	}
 
 	bool contains(E element) {
-		return indexOf(element, 0) != -1;
+		goToStart();
+		while (!atEnd()) {
+			if (element == getElement()) {
+				return true;
+			}
+			next();
+		}
+		return false;
 	}
 
 	bool equals(List<E>* other) {
