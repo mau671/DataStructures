@@ -1,3 +1,11 @@
+/*
+ * Archivo: LinkedList.h
+ * Descripción: Implementación de una lista enlazada simple con manejo de nodos libres.
+ *              Proporciona operaciones de inserción, eliminación, búsqueda y manipulación de elementos.
+ *
+ * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+ */
+
 #pragma once
 
 #include <stdexcept>
@@ -9,22 +17,32 @@ using std::runtime_error;
 using std::cout;
 using std::endl;
 
+/**
+ * @brief Clase que implementa una lista enlazada simple.
+ * 
+ * @tparam E Tipo de elementos almacenados en la lista.
+ */
 template <typename E>
 class LinkedList : public List<E> {
 private:
-    Node<E>* head;
-    Node<E>* tail;
-    Node<E>* current;
-    int size;
+    Node<E>* head;    ///< Puntero al primer nodo de la lista.
+    Node<E>* tail;    ///< Puntero al último nodo de la lista.
+    Node<E>* current; ///< Puntero al nodo actual.
+    int size;         ///< Número de elementos en la lista.
 
-    // Lista de nodos libres
-    Node<E>* freeNodes;
+    Node<E>* freeNode; ///< Lista de nodos libres para reutilización.
 
-    // Métodos privados para manejar la lista de nodos libres
+    /**
+     * @brief Obtiene un nodo libre de la lista de nodos libres o crea uno nuevo si no hay disponibles.
+     * 
+     * @param element Elemento que almacenará el nodo.
+     * @param next Puntero al siguiente nodo (opcional).
+     * @return Puntero al nodo recién asignado.
+     */
     Node<E>* getFreeNode(E element, Node<E>* next = nullptr) {
-        if (freeNodes != nullptr) {
-            Node<E>* temp = freeNodes;
-            freeNodes = freeNodes->next;
+        if (freeNode != nullptr) {
+            Node<E>* temp = freeNode;
+            freeNode = freeNode->next;
             temp->element = element;
             temp->next = next;
             return temp;
@@ -32,28 +50,44 @@ private:
         return new Node<E>(element, next);
     }
 
+    /**
+     * @brief Libera un nodo y lo agrega a la lista de nodos libres.
+     * 
+     * @param node Puntero al nodo que se va a liberar.
+     */
     void releaseNode(Node<E>* node) {
-        node->next = freeNodes;
-        freeNodes = node;
+        node->next = freeNode;
+        freeNode = node;
     }
 
 public:
+    /**
+     * @brief Constructor que inicializa una lista enlazada vacía.
+     */
     LinkedList() {
         current = head = tail = new Node<E>();
-        freeNodes = nullptr;
+        freeNode = nullptr;
         size = 0;
     }
 
+    /**
+     * @brief Destructor que libera toda la memoria asociada con la lista.
+     */
     ~LinkedList() {
         clear();
         delete head;
-        while (freeNodes != nullptr) {
-            Node<E>* temp = freeNodes;
-            freeNodes = freeNodes->next;
+        while (freeNode != nullptr) {
+            Node<E>* temp = freeNode;
+            freeNode = freeNode->next;
             delete temp;
         }
     }
 
+    /**
+     * @brief Inserta un elemento en la posición actual.
+     * 
+     * @param element Elemento a insertar.
+     */
     void insert(E element) {
         current->next = getFreeNode(element, current->next);
         if (current == tail)
@@ -61,11 +95,22 @@ public:
         size++;
     }
 
+    /**
+     * @brief Agrega un elemento al final de la lista.
+     * 
+     * @param element Elemento a agregar.
+     */
     void append(E element) {
         tail = tail->next = getFreeNode(element);
         size++;
     }
 
+    /**
+     * @brief Elimina y devuelve el elemento en la posición actual.
+     * 
+     * @return Elemento eliminado.
+     * @throw runtime_error Si la lista está vacía o no hay un elemento actual.
+     */
     E remove() {
         if (size == 0)
             throw runtime_error("List is empty");
@@ -81,6 +126,12 @@ public:
         return result;
     }
 
+    /**
+     * @brief Devuelve el elemento en la posición actual.
+     * 
+     * @return Elemento en la posición actual.
+     * @throw runtime_error Si la lista está vacía o no hay un elemento actual.
+     */
     E getElement() {
         if (size == 0)
             throw runtime_error("List is empty");
@@ -89,6 +140,9 @@ public:
         return current->next->element;
     }
 
+    /**
+     * @brief Limpia todos los elementos de la lista.
+     */
     void clear() {
         while (head->next != nullptr) {
             current = head->next;
@@ -99,14 +153,26 @@ public:
         size = 0;
     }
 
+    /**
+     * @brief Mueve el puntero actual al inicio de la lista.
+     */
     void goToStart() {
         current = head;
     }
 
+    /**
+     * @brief Mueve el puntero actual al final de la lista.
+     */
     void goToEnd() {
         current = tail;
     }
 
+    /**
+     * @brief Mueve el puntero actual a una posición específica.
+     * 
+     * @param pos Posición a la que se moverá el puntero.
+     * @throw runtime_error Si la posición está fuera de los límites de la lista.
+     */
     void goToPos(int pos) {
         if (pos < 0 || pos > size)
             throw runtime_error("Index out of bounds.");
@@ -115,11 +181,17 @@ public:
             current = current->next;
     }
 
+    /**
+     * @brief Mueve el puntero actual al siguiente elemento.
+     */
     void next() {
         if (current != tail)
             current = current->next;
     }
 
+    /**
+     * @brief Mueve el puntero actual al elemento anterior.
+     */
     void previous() {
         if (current != head) {
             Node<E>* temp = head;
@@ -129,14 +201,29 @@ public:
         }
     }
 
+    /**
+     * @brief Verifica si el puntero actual está al inicio de la lista.
+     * 
+     * @return true si está al inicio, false en caso contrario.
+     */
     bool atStart() {
         return current == head;
     }
 
+    /**
+     * @brief Verifica si el puntero actual está al final de la lista.
+     * 
+     * @return true si está al final, false en caso contrario.
+     */
     bool atEnd() {
         return current == tail;
     }
 
+    /**
+     * @brief Devuelve la posición actual del puntero en la lista.
+     * 
+     * @return Posición actual del puntero.
+     */
     int getPos() {
         int pos = 0;
         Node<E>* temp = head;
@@ -147,10 +234,18 @@ public:
         return pos;
     }
 
+    /**
+     * @brief Devuelve el número de elementos en la lista.
+     * 
+     * @return Tamaño de la lista.
+     */
     int getSize() {
         return size;
     }
 
+    /**
+     * @brief Imprime los elementos de la lista.
+     */
     void print() {
         cout << "[ ";
         Node<E>* temp = head->next;
@@ -165,6 +260,14 @@ public:
         cout << "]" << endl;
     }
 
+    /**
+     * @brief Devuelve el índice de un elemento en la lista, comenzando desde una posición específica.
+     * 
+     * @param element Elemento a buscar.
+     * @param start Posición desde la que se inicia la búsqueda.
+     * @return Índice del elemento, o -1 si no se encuentra.
+     * @throw runtime_error Si la posición de inicio está fuera de los límites.
+     */
     int indexOf(E element, int start = 0) {
         if (start < 0 || start >= size)
             throw runtime_error("Index out of bounds.");
@@ -179,10 +282,19 @@ public:
         return -1;
     }
 
+    /**
+     * @brief Verifica si la lista contiene un elemento específico.
+     * 
+     * @param element Elemento a buscar.
+     * @return true si el elemento está en la lista, false en caso contrario.
+     */
     bool contains(E element) {
         return indexOf(element, 0) != -1;
     }
 
+    /**
+     * @brief Invierte el orden de los elementos en la lista.
+     */
     void reverse() {
         Node<E>* prev = nullptr;
         Node<E>* next = nullptr;
@@ -197,6 +309,12 @@ public:
         head->next = prev;
     }
 
+    /**
+     * @brief Compara si dos listas son iguales.
+     * 
+     * @param other Lista con la que se compara.
+     * @return true si las listas son iguales, false en caso contrario.
+     */
     bool equals(List<E>* other) {
         if (size != other->getSize())
             return false;
@@ -211,6 +329,11 @@ public:
         return true;
     }
 
+    /**
+     * @brief Extiende la lista actual con los elementos de otra lista.
+     * 
+     * @param other Lista cuyos elementos se agregarán.
+     */
     void extend(List<E>* other) {
         Node<E>* temp = dynamic_cast<LinkedList<E>*>(other)->head->next;
         while (temp != nullptr) {
@@ -219,6 +342,12 @@ public:
         }
     }
 
+    /**
+     * @brief Establece un nuevo valor para el elemento en la posición actual.
+     * 
+     * @param element Nuevo valor a establecer.
+     * @throw runtime_error Si la lista está vacía o no hay un elemento actual.
+     */
     void set(E element) {
         if (size == 0)
             throw runtime_error("List is empty");
