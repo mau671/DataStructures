@@ -1,3 +1,11 @@
+/*
+ * Archivo: AVLDictionary.h
+ * Descripción: Clase que implementa un diccionario utilizando un árbol AVL.
+ *              Permite insertar, eliminar y recuperar pares clave-valor.
+ *
+ * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+ */
+
 #pragma once
 
 #include <iostream>
@@ -10,79 +18,144 @@
 template <typename K, typename V>
 class AVLDictionary : public Dictionary<K, V> {
 private:
-	AVLTree<KVPair<K, V>>* pairs;
+    AVLTree<KVPair<K, V>>* pairs; ///< Árbol AVL que almacena los pares clave-valor.
 
 public:
-	AVLDictionary(const AVLDictionary<K, V>& other) = delete;
-	void operator =(const AVLDictionary<K, V>& other) = delete;
+    /** 
+     * @brief Constructor de copia (eliminado).
+     */
+    AVLDictionary(const AVLDictionary<K, V>& other) = delete;
 
-	AVLDictionary() {
-		pairs = new AVLTree<KVPair<K, V>>();
-	}
+    /** 
+     * @brief Operador de asignación (eliminado).
+     */
+    void operator =(const AVLDictionary<K, V>& other) = delete;
 
-	~AVLDictionary() {
-		delete pairs;
-	}
+    /** 
+     * @brief Constructor por defecto.
+     * 
+     * Inicializa un árbol AVL vacío para almacenar pares clave-valor.
+     */
+    AVLDictionary() {
+        pairs = new AVLTree<KVPair<K, V>>();
+    }
 
-	void insert(K key, V value) {
-		KVPair<K, V> pair(key, value);
-		pairs->insert(pair);
-	}
+    /** 
+     * @brief Destructor.
+     * 
+     * Libera los recursos utilizados por el árbol AVL.
+     */
+    ~AVLDictionary() {
+        delete pairs;
+    }
 
-	V remove(K key) {
-		KVPair<K, V> pair(key);
-		pair = pairs->remove(pair);
-		return pair.value;
-	}
+    /** 
+     * @brief Inserta un nuevo par clave-valor en el diccionario.
+     * 
+     * @param key La clave del par.
+     * @param value El valor asociado a la clave.
+     */
+    void insert(K key, V value) {
+        KVPair<K, V> pair(key, value);
+        pairs->insert(pair);
+    }
 
-	V getValue(K key) {
-		KVPair<K, V> pair(key);
-		pair = pairs->find(pair);
-		return pair.value;
-	}
+    /** 
+     * @brief Elimina un elemento del diccionario por su clave.
+     * 
+     * @param key La clave del elemento a eliminar.
+     * @return El valor asociado a la clave eliminada.
+     * @throw std::runtime_error si la clave no existe en el diccionario.
+     */
+    V remove(K key) {
+        KVPair<K, V> pair(key);
+        pair = pairs->remove(pair);
+        return pair.value;
+    }
 
-	void setValue(K key, V value) {
-		KVPair<K, V> pair(key, value);
-		pairs->remove(pair);
-		pairs->insert(pair);
-	}
+    /** 
+     * @brief Recupera el valor asociado a una clave.
+     * 
+     * @param key La clave del elemento a buscar.
+     * @return El valor asociado a la clave.
+     * @throw std::runtime_error si la clave no existe en el diccionario.
+     */
+    V getValue(K key) {
+        KVPair<K, V> pair(key);
+        pair = pairs->find(pair);
+        return pair.value;
+    }
 
-	bool contains(K key) {
-		KVPair<K, V> pair(key);
-		return pairs->contains(pair);
-	}
+    /** 
+     * @brief Establece un nuevo valor para una clave existente.
+     * 
+     * @param key La clave del elemento a actualizar.
+     * @param value El nuevo valor a establecer.
+     */
+    void setValue(K key, V value) {
+        KVPair<K, V> pair(key, value);
+        pairs->remove(pair);
+        pairs->insert(pair);
+    }
 
-	List<K>* getKeys() {
-		List<KVPair<K, V>>* items = pairs->getElements();
-		List<K>* keys = new DLinkedList<K>();
-		while (!items->atEnd()) {
-			auto pair = items->getElement();
-			keys->append(pair.key);
-			items->next();
-		}
-		delete items;
-		return keys;
-	}
+    /** 
+     * @brief Verifica si el diccionario contiene una clave específica.
+     * 
+     * @param key La clave a buscar.
+     * @return true si la clave existe en el diccionario, false en caso contrario.
+     */
+    bool contains(K key) {
+        KVPair<K, V> pair(key);
+        return pairs->contains(pair);
+    }
 
-	List<V>* getValues() {
-		List<KVPair<K, V>>* items = pairs->getElements();
-		List<V>* values = new DLinkedList<V>();
-		while (!items->atEnd()) {
-			auto pair = items->getElement();
-			values->append(pair.value);
-			items->next();
-		}
-		delete items;
-		return values;
-	}
+    /** 
+     * @brief Recupera una lista de todas las claves en el diccionario.
+     * 
+     * @return Un puntero a una lista que contiene todas las claves.
+     */
+    List<K>* getKeys() {
+        List<KVPair<K, V>>* items = pairs->getElements();
+        List<K>* keys = new DLinkedList<K>();
+        while (!items->atEnd()) {
+            auto pair = items->getElement();
+            keys->append(pair.key);
+            items->next();
+        }
+        delete items;
+        return keys;
+    }
 
-	int getSize() {
-		return pairs->getSize();
-	}
+    /** 
+     * @brief Recupera una lista de todos los valores en el diccionario.
+     * 
+     * @return Un puntero a una lista que contiene todos los valores.
+     */
+    List<V>* getValues() {
+        List<KVPair<K, V>>* items = pairs->getElements();
+        List<V>* values = new DLinkedList<V>();
+        while (!items->atEnd()) {
+            auto pair = items->getElement();
+            values->append(pair.value);
+            items->next();
+        }
+        delete items;
+        return values;
+    }
 
-	void print() {
-		pairs->print();
-	}
+    /** 
+     * @brief Obtiene el número de elementos en el diccionario.
+     * 
+     * @return El tamaño del diccionario.
+     */
+    int getSize() {
+        return pairs->getSize();
+    }
 
+    /** 
+     * @brief Imprime el contenido del diccionario.
+     */
+    void print() {
+        pairs->print();
+    }
 };
-

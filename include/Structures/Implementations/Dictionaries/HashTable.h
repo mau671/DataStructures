@@ -1,5 +1,12 @@
-#ifndef HASHTABLE_H
-#define HASHTABLE_H
+/*
+ * Archivo: HashTable.h
+ * Descripción: Clase que implementa una tabla de hash genérica utilizando encadenamiento
+ *              para manejar colisiones. Permite insertar, eliminar y recuperar pares clave-valor.
+ *
+ * Autor(es): Profesor Mauricio Aviles Cisneros
+ */
+
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -18,15 +25,14 @@ using std::string;
 template <typename K, typename V>
 class HashTable : public Dictionary<K, V> {
 private:
-    DLinkedList<KVPair<K, V>> *buckets;
-    int max;
-    int size;
-    double maxLoad;
-    double minLoad;
-    DLinkedList<int> *primes; // lista de primos para el tamaño del arreglo
+    DLinkedList<KVPair<K, V>> *buckets; ///< Arreglo de listas enlazadas que almacenan pares clave-valor.
+    int max; ///< Capacidad máxima de la tabla.
+    int size; ///< Número actual de elementos en la tabla.
+    double maxLoad; ///< Factor de carga máximo permitido.
+    double minLoad; ///< Factor de carga mínimo permitido.
+    DLinkedList<int> *primes; ///< Lista de números primos para el tamaño de la tabla.
 
-    // carga números primos para ser usados como capacidad
-    // máxima de la tabla. Inicia en 1021.
+    // Carga números primos para ser usados como capacidad máxima de la tabla. Inicia en 1021.
     void initPrimes() {
         primes = new DLinkedList<int>();
         primes->append(61);
@@ -48,18 +54,23 @@ private:
         primes->goToPos(4);
     }
 
+    /** 
+     * @brief Calcula el factor de carga actual de la tabla de hash.
+     * 
+     * @return El factor de carga.
+     */
     double loadFactor() {
         return (double)size / (double)max;
     }
 
-    // redimensiona la tabla para hacerla más grande
+    // Redimensiona la tabla para hacerla más grande.
     void reHashUp() {
         primes->next();
         int newMax = primes->getElement();
         reHash(newMax);
     }
 
-    // redimensiona la tabla para hacerla más pequeña
+    // Redimensiona la tabla para hacerla más pequeña.
     void reHashDown() {
         primes->previous();
         int newMax = primes->getElement();
@@ -67,9 +78,8 @@ private:
             reHash(newMax);
     }
 
-    // redimensiona la tabla al tamaño indicado
+    // Redimensiona la tabla al tamaño indicado.
     void reHash(int newMax) {
-        cout << "Rehashing, new size: " << newMax << endl;
         int oldMax = max;
         max = newMax;
         DLinkedList<KVPair<K, V>> *newBuckets = new DLinkedList<KVPair<K, V>>[max];
@@ -84,33 +94,53 @@ private:
         buckets = newBuckets;
     }
 
-    // revisa que una llave no exista en la estructura
-    // si la encuentra lanza error
-    // si no la encuentra la posición actual queda al final
+    // Revisa que una llave no exista en la estructura.
+    // Si la encuentra, lanza un error.
+    // Si no la encuentra, la posición actual queda al final.
     void checkNotExisting(K key) {
         KVPair<K, V> p(key);
         if (buckets[h(key)].contains(p))
             throw runtime_error("Duplicated key.");
     }
 
-    // revisa que una llave exista en la estructura
-    // si la encuentra deja la posición actual apuntando
-    // a la llave buscada
-    // si no la encuentra lanza error
+    // Revisa que una llave exista en la estructura.
+    // Si la encuentra, deja la posición actual apuntando a la llave buscada.
+    // Si no la encuentra, lanza un error.
     void checkExisting(K key) {
         KVPair<K, V> p(key);
         if (!buckets[h(key)].contains(p))
             throw runtime_error("Key not found.");
     }
+
+    /** 
+     * @brief Función hash para convertir la clave en un índice de la tabla.
+     * 
+     * @param key La clave a hashear.
+     * @return El índice correspondiente en la tabla.
+     */
     int h(K key) {
         return compress(hashCodePolynomial(key));
     }
+
+    /** 
+     * @brief Comprime el código hash a un índice válido.
+     * 
+     * @param code El código hash a comprimir.
+     * @return El índice comprimido.
+     */
     int compress(int code) {
         int a = 1097;
         int b = 1279;
         return abs(a * code + b) % max;
     }
+
     template <typename T>
+    /** 
+     * @brief Calcula el código hash utilizando un enfoque polinómico.
+     * 
+     * @param key La clave a hashear.
+     * @return El código hash calculado.
+     */
     int hashCodePolynomial(T key) {
         int a = 33;
         int result = 0;
@@ -120,6 +150,13 @@ private:
         }
         return result;
     }
+
+    /** 
+     * @brief Sobrecarga de la función hash para cadenas de texto.
+     * 
+     * @param key La cadena a hashear.
+     * @return El código hash calculado.
+     */
     int hashCodePolynomial(string key) {
         int a = 33;
         int result = 0;
@@ -130,6 +167,9 @@ private:
     }
 
 public:
+    /** 
+     * @brief Constructor por defecto que inicializa la tabla de hash.
+     */
     HashTable() {
         initPrimes();
         max = primes->getElement();
@@ -138,10 +178,22 @@ public:
         maxLoad = 0.6;
         minLoad = 0.2;
     }
+
+    /** 
+     * @brief Destructor que libera la memoria utilizada por la tabla de hash.
+     */
     ~HashTable() {
         delete [] buckets;
         delete primes;
     }
+
+    /** 
+     * @brief Inserta un nuevo par clave-valor en la tabla de hash.
+     * 
+     * @param key La clave del par.
+     * @param value El valor asociado a la clave.
+     * @throw runtime_error si la clave ya existe en la tabla.
+     */
     void insert(K key, V value) {
         if (loadFactor() > maxLoad)
             reHashUp();
@@ -150,6 +202,14 @@ public:
         buckets[h(key)].append(p);
         size++;
     }
+
+    /** 
+     * @brief Elimina un elemento de la tabla de hash por su clave.
+     * 
+     * @param key La clave del elemento a eliminar.
+     * @return El valor asociado a la clave eliminada.
+     * @throw runtime_error si la clave no existe en la tabla.
+     */
     V remove(K key) {
         if (loadFactor() <= minLoad)
             reHashDown();
@@ -158,26 +218,59 @@ public:
         size--;
         return p.value;
     }
+
+    /** 
+     * @brief Recupera el valor asociado a una clave.
+     * 
+     * @param key La clave del elemento a buscar.
+     * @return El valor asociado a la clave.
+     * @throw runtime_error si la clave no existe en la tabla.
+     */
     V getValue(K key) {
         checkExisting(key);
         KVPair<K, V> p = buckets[h(key)].getElement();
         return p.value;
     }
+
+    /** 
+     * @brief Establece un nuevo valor para una clave existente.
+     * 
+     * @param key La clave del elemento a actualizar.
+     * @param value El nuevo valor a establecer.
+     * @throw runtime_error si la clave no existe en la tabla.
+     */
     void setValue(K key, V value) {
         checkExisting(key);
         KVPair<K, V> p(key, value);
         buckets[h(key)].set(p);
     }
+
+    /** 
+     * @brief Verifica si la tabla contiene una clave específica.
+     * 
+     * @param key La clave a buscar.
+     * @return true si la clave existe en la tabla, false en caso contrario.
+     */
     bool contains(K key) {
         KVPair<K, V> p(key);
         return buckets[h(key)].contains(p);
     }
+
+    /** 
+     * @brief Elimina todos los elementos de la tabla de hash.
+     */
     void clear() {
         for (int i = 0; i < max; i++) {
             buckets[i].clear();
         }
         size = 0;
     }
+
+    /** 
+     * @brief Recupera una lista de todas las claves en la tabla de hash.
+     * 
+     * @return Un puntero a una lista que contiene todas las claves.
+     */
     List<K>* getKeys() {
         List<K> *keys = new DLinkedList<K>();
         for (int i = 0; i < max; i++) {
@@ -190,6 +283,12 @@ public:
         }
         return keys;
     }
+
+    /** 
+     * @brief Recupera una lista de todos los valores en la tabla de hash.
+     * 
+     * @return Un puntero a una lista que contiene todos los valores.
+     */
     List<V>* getValues() {
         List<V> *values = new DLinkedList<V>();
         for (int i = 0; i < max; i++) {
@@ -202,9 +301,19 @@ public:
         }
         return values;
     }
+
+    /** 
+     * @brief Obtiene el número de elementos en la tabla de hash.
+     * 
+     * @return El tamaño de la tabla de hash.
+     */
     int getSize() {
         return size;
     }
+
+    /** 
+     * @brief Imprime el contenido de la tabla de hash.
+     */
     void print() {
         cout << "[";
         for (int i = 0; i < max; i++) {
@@ -217,5 +326,3 @@ public:
         cout << "]" << endl;
     }
 };
-
-#endif // HASHTABLE_H
