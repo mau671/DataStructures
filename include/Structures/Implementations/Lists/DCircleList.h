@@ -1,10 +1,11 @@
-/*
- * Archivo: DCircleList.h
- * Descripción: Implementación de una lista doblemente enlazada circular.
- *              Proporciona operaciones de inserción, eliminación, búsqueda y
- *              manipulación de elementos.
- *
- * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+/**
+ * @file DCircleList.h
+ * @brief Implementación de una lista doblemente enlazada circular.
+ * 
+ * Proporciona operaciones de inserción, eliminación, búsqueda y manipulación de elementos.
+ * 
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
  */
 
 #pragma once

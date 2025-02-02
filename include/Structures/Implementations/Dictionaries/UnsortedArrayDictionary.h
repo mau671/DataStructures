@@ -1,9 +1,10 @@
-/*
- * Archivo: UnsortedArrayDictionary.h
- * Descripción: Clase que implementa un diccionario no ordenado utilizando un arreglo.
- *              Permite insertar, eliminar y recuperar pares clave-valor.
+/**
+ * @file UnsortedArrayDictionary.h
+ * @brief Clase que implementa un diccionario no ordenado utilizando un arreglo.
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros
+ * Permite insertar, eliminar y recuperar pares clave-valor.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
  */
 
 #pragma once

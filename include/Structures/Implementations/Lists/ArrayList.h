@@ -1,10 +1,11 @@
-/*
- * Archivo: ArrayList.h
- * Descripción: Implementación de una lista utilizando un arreglo dinámico.
- *              Proporciona operaciones de inserción, eliminación, búsqueda y
- *              manipulación de elementos.
+/**
+ * @file ArrayList.h
+ * @brief Implementación de una lista utilizando un arreglo dinámico.
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+ * Proporciona operaciones de inserción, eliminación, búsqueda y manipulación de elementos.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
  */
 
 #pragma once

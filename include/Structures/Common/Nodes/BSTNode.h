@@ -1,22 +1,34 @@
-/*
- * Archivo: BSTNode.h
- * Descripción: Clase que representa un nodo en un árbol de búsqueda binaria (BST).
- *              Almacena un elemento y punteros a los nodos hijos izquierdo y derecho.
+/**
+ * @file BSTNode.h
+ * @brief Clase que representa un nodo en un árbol de búsqueda binaria (BST).
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros
+ * Almacena un elemento y punteros a los nodos hijos izquierdo y derecho.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
  */
 
 #pragma once
 
+/**
+ * @brief Clase que representa un nodo en un árbol de búsqueda binaria (BST).
+ *
+ * Un nodo BST almacena un elemento y punteros a sus hijos izquierdo y derecho.
+ * Además, proporciona métodos para verificar si es una hoja, contar el número de hijos
+ * y obtener el único hijo si existe.
+ *
+ * @tparam E Tipo de los elementos almacenados en el nodo.
+ */
 template <typename E>
 class BSTNode {
 public:
-    E element;                     ///< El elemento almacenado en el nodo.
-    BSTNode<E>* left;             ///< Puntero al hijo izquierdo del nodo.
-    BSTNode<E>* right;            ///< Puntero al hijo derecho del nodo.
+    E element; ///< El elemento almacenado en el nodo.
+    BSTNode<E>* left; ///< Puntero al hijo izquierdo del nodo.
+    BSTNode<E>* right; ///< Puntero al hijo derecho del nodo.
 
     /**
      * @brief Constructor que inicializa un nodo con un elemento.
+     *
+     * Los punteros a los hijos izquierdo y derecho se inicializan como nullptr.
      *
      * @param element El elemento que se almacenará en el nodo.
      */

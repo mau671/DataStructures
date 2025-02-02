@@ -1,15 +1,20 @@
-/*
- * Archivo: SNode.h
- * Descripción: Clase que representa un nodo en un �rbol binario con enlaces a sus hijos y su padre,
- *              permite almacenar un elemento de tipo E y enlazarlo con sus hijos y su padre.
- * 
- * Autor: Profesor Mauricio Aviles Cisneros
+/**
+ * @file SNode.h
+ * @brief Clase que representa un nodo en un árbol binario con enlaces a sus hijos y su padre.
+ *
+ * Permite almacenar un elemento de tipo E y enlazarlo con sus hijos y su padre.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
  */
 
 #pragma once
 
 /**
- * @brief Clase que representa un nodo en un �rbol binario con enlaces a sus hijos y su padre.
+ * @brief Clase que representa un nodo en un árbol binario con enlaces a sus hijos y su padre.
+ *
+ * Un nodo en este árbol almacena un elemento, punteros a sus hijos izquierdo y derecho,
+ * y un puntero a su nodo padre. Además, proporciona métodos para calcular el número de hijos
+ * y obtener el único hijo si existe.
  *
  * @tparam E Tipo de dato almacenado en el nodo.
  */
@@ -24,6 +29,8 @@ public:
     /**
      * @brief Constructor que inicializa un nodo con un elemento dado y sin hijos ni padre.
      *
+     * Los punteros a los hijos izquierdo, derecho y padre se inicializan como nullptr.
+     *
      * @param element El elemento a almacenar en el nodo.
      */
     SNode(E element) {
@@ -34,18 +41,21 @@ public:
     }
 
     /**
-     * @brief Calcula el n�mero de hijos no nulos del nodo.
+     * @brief Calcula el número de hijos no nulos del nodo.
      *
-     * @return El n�mero de hijos (0, 1 o 2).
+     * @return El número de hijos (0, 1 o 2).
      */
     int childrenCount() {
         return (left == nullptr ? 0 : 1) + (right == nullptr ? 0 : 1);
     }
 
     /**
-     * @brief Obtiene el �nico hijo del nodo si tiene exactamente uno.
+     * @brief Obtiene el único hijo del nodo si tiene exactamente uno.
      *
-     * @return Puntero al �nico hijo, o nullptr si el nodo no tiene o tiene dos hijos.
+     * Si el nodo tiene exactamente un hijo (izquierdo o derecho), retorna ese hijo.
+     * Si el nodo no tiene hijos o tiene dos hijos, retorna nullptr.
+     *
+     * @return Puntero al único hijo, o nullptr si el nodo no tiene o tiene dos hijos.
      */
     SNode<E>* getUniqueChild() {
         return (left == nullptr ? right : left);

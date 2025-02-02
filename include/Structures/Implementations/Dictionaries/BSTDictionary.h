@@ -1,9 +1,10 @@
-/*
- * Archivo: BSTDictionary.h
- * Descripción: Clase que implementa un diccionario utilizando un árbol binario de búsqueda (BST).
- *              Permite insertar, eliminar y recuperar pares clave-valor.
+/**
+ * @file BSTDictionary.h
+ * @brief Clase que implementa un diccionario utilizando un árbol binario de búsqueda (BST).
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros
+ * Permite insertar, eliminar y recuperar pares clave-valor.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
  */
 
 #pragma once

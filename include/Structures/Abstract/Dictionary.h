@@ -1,9 +1,14 @@
-/*
- * Archivo: Dictionary.h
- * Descripción: Clase abstracta que define la interfaz para un diccionario genérico.
- *              Permite insertar, eliminar y recuperar pares clave-valor.
+/**
+ * @file Dictionary.h
+ * @brief Clase abstracta que define la interfaz para un diccionario genérico.
  *
- * Autor(es):  Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+ * Esta clase representa un diccionario que mapea claves de tipo K a valores de tipo V.
+ * Proporciona una interfaz común para operaciones básicas como inserción, eliminación
+ * y recuperación de pares clave-valor. Las clases derivadas deben implementar estos
+ * métodos para proporcionar un comportamiento concreto.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
  */
 
 #pragma once
@@ -14,8 +19,9 @@
  * @brief Clase abstracta que define la interfaz para un diccionario.
  *
  * Esta clase representa un diccionario genérico que mapea claves de tipo K a valores de tipo V.
- * Las implementaciones concretas de esta clase deberán definir el comportamiento de los métodos 
- * para insertar, eliminar y recuperar elementos del diccionario.
+ * Proporciona una interfaz común para operaciones básicas como inserción, eliminación
+ * y recuperación de pares clave-valor. Las clases derivadas deben implementar estos
+ * métodos para proporcionar un comportamiento concreto.
  *
  * @tparam K Tipo de las claves del diccionario.
  * @tparam V Tipo de los valores del diccionario.
@@ -27,19 +33,19 @@ private:
     Dictionary(const Dictionary<K, V>& other) {}
 
     // Operador de asignación privado para evitar asignaciones no deseadas.
-    void operator =(const Dictionary<K, V>& other) {}
+    void operator=(const Dictionary<K, V>& other) {}
 
 public:
-    /** 
+    /**
      * @brief Constructor por defecto.
-     * 
+     *
      * Inicializa un diccionario vacío.
      */
     Dictionary() {}
 
-    /** 
+    /**
      * @brief Destructor virtual.
-     * 
+     *
      * Asegura que los recursos se liberen correctamente en las clases derivadas.
      */
     virtual ~Dictionary() {}
@@ -63,13 +69,15 @@ public:
     /**
      * @brief Recupera el valor asociado a una clave.
      *
-     * @param key La clave cuya valor se desea obtener.
+     * @param key La clave cuyo valor se desea obtener.
      * @return El valor asociado a la clave.
      */
     virtual V getValue(K key) = 0;
 
     /**
      * @brief Establece o actualiza el valor asociado a una clave.
+     *
+     * Si la clave ya existe, su valor se actualiza. Si no existe, se inserta un nuevo par.
      *
      * @param key La clave cuyo valor se desea establecer o actualizar.
      * @param value El nuevo valor a asociar con la clave.

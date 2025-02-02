@@ -1,10 +1,11 @@
-/*
- * Archivo: BSTree.h
- * Descripción: Implementación de un árbol binario de búsqueda (BST).
- *              El BST permite la inserción, búsqueda y eliminación de elementos
- *              de manera eficiente, manteniendo un orden específico.
+/**
+ * @file BSTree.h
+ * @brief Implementación de un árbol binario de búsqueda (BST).
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros
+ * El BST permite la inserción, búsqueda y eliminación de elementos de manera eficiente,
+ * manteniendo un orden específico.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
  */
 
 #pragma once
@@ -20,7 +21,11 @@ using std::endl;
 
 /**
  * @brief Clase que implementa un árbol binario de búsqueda (BST).
- * 
+ *
+ * Un árbol binario de búsqueda (BST) es una estructura de datos que mantiene un orden específico:
+ * - Todos los elementos en el subárbol izquierdo son menores que el nodo raíz.
+ * - Todos los elementos en el subárbol derecho son mayores que el nodo raíz.
+ *
  * @tparam E Tipo de los elementos almacenados en el BST.
  */
 template <typename E>
@@ -34,6 +39,9 @@ private:
 
     /**
      * @brief Función auxiliar para insertar un elemento en el árbol.
+     *
+     * Realiza la inserción recursiva en el árbol.
+     *
      * @param current Nodo actual en el recorrido del árbol.
      * @param element Elemento a insertar.
      * @return Puntero al nodo actualizado después de la inserción.
@@ -42,21 +50,21 @@ private:
     BSTNode<E>* insertAux(BSTNode<E>* current, E element) {
         if (current == nullptr)
             return new BSTNode<E>(element);
-
         // Si se desea permitir elementos duplicados, eliminar este bloque
         if (element == current->element)
             throw runtime_error("Duplicated element.");
-
         if (element < current->element)
             current->left = insertAux(current->left, element);
         else
             current->right = insertAux(current->right, element);
-
         return current;
     }
 
     /**
      * @brief Función auxiliar para verificar si el árbol contiene un elemento.
+     *
+     * Realiza una búsqueda recursiva en el árbol.
+     *
      * @param current Nodo actual en el recorrido del árbol.
      * @param element Elemento a buscar.
      * @return true si el elemento se encuentra en el árbol, false en caso contrario.
@@ -74,6 +82,9 @@ private:
 
     /**
      * @brief Función auxiliar para encontrar un elemento en el árbol.
+     *
+     * Realiza una búsqueda recursiva en el árbol.
+     *
      * @param current Nodo actual en el recorrido del árbol.
      * @param element Elemento a buscar.
      * @return El elemento encontrado.
@@ -92,6 +103,9 @@ private:
 
     /**
      * @brief Función auxiliar para eliminar un elemento del árbol.
+     *
+     * Realiza la eliminación recursiva en el árbol.
+     *
      * @param current Nodo actual en el recorrido del árbol.
      * @param element Elemento a eliminar.
      * @param result Puntero para almacenar el elemento eliminado.
@@ -101,7 +115,6 @@ private:
     BSTNode<E>* removeAux(BSTNode<E>* current, E element, E* result) {
         if (current == nullptr)
             throw runtime_error("Element not found.");
-
         if (element < current->element) {
             current->left = removeAux(current->left, element, result);
             return current;
@@ -131,6 +144,7 @@ private:
 
     /**
      * @brief Encuentra el nodo con el valor mínimo en un subárbol.
+     *
      * @param current Nodo raíz del subárbol.
      * @return Puntero al nodo con el valor mínimo.
      */
@@ -142,6 +156,7 @@ private:
 
     /**
      * @brief Intercambia los valores de dos nodos.
+     *
      * @param n1 Primer nodo.
      * @param n2 Segundo nodo.
      */
@@ -153,6 +168,9 @@ private:
 
     /**
      * @brief Función auxiliar para limpiar el árbol y liberar memoria.
+     *
+     * Realiza un recorrido postorden para liberar la memoria de todos los nodos.
+     *
      * @param current Nodo actual en el recorrido del árbol.
      */
     void clearAux(BSTNode<E>* current) {
@@ -165,6 +183,9 @@ private:
 
     /**
      * @brief Función auxiliar para obtener todos los elementos del árbol en orden.
+     *
+     * Realiza un recorrido inorden para almacenar los elementos en una lista.
+     *
      * @param current Nodo actual en el recorrido del árbol.
      * @param elements Lista donde se almacenarán los elementos.
      */
@@ -178,6 +199,9 @@ private:
 
     /**
      * @brief Función auxiliar para calcular el tamaño del árbol.
+     *
+     * Realiza un recorrido recursivo para contar los nodos en el árbol.
+     *
      * @param current Nodo actual en el recorrido del árbol.
      * @return Número de nodos en el subárbol.
      */
@@ -189,6 +213,7 @@ private:
 
     /**
      * @brief Calcula la altura de un subárbol.
+     *
      * @param current Nodo raíz del subárbol.
      * @return Altura del subárbol.
      */
@@ -217,6 +242,7 @@ public:
 
     /**
      * @brief Inserta un elemento en el árbol.
+     *
      * @param element Elemento a insertar.
      */
     void insert(E element) {
@@ -225,6 +251,7 @@ public:
 
     /**
      * @brief Verifica si el árbol contiene un elemento.
+     *
      * @param element Elemento a buscar.
      * @return true si el elemento se encuentra en el árbol, false en caso contrario.
      */
@@ -234,6 +261,7 @@ public:
 
     /**
      * @brief Encuentra un elemento en el árbol.
+     *
      * @param element Elemento a buscar.
      * @return El elemento encontrado.
      * @throw runtime_error Si el elemento no se encuentra en el árbol.
@@ -244,6 +272,7 @@ public:
 
     /**
      * @brief Elimina un elemento del árbol.
+     *
      * @param element Elemento a eliminar.
      * @return El elemento eliminado.
      * @throw runtime_error Si el elemento no se encuentra en el árbol.
@@ -264,6 +293,7 @@ public:
 
     /**
      * @brief Obtiene todos los elementos del árbol en orden.
+     *
      * @return Lista de elementos en orden.
      */
     List<E>* getElements() {
@@ -274,6 +304,7 @@ public:
 
     /**
      * @brief Obtiene el tamaño del árbol.
+     *
      * @return Número de elementos en el árbol.
      */
     int getSize() {
@@ -291,6 +322,7 @@ public:
 
     /**
      * @brief Obtiene la altura del árbol.
+     *
      * @return Altura del árbol.
      */
     int getHeight() {

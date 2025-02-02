@@ -1,9 +1,11 @@
-/*
- * Archivo: DLinkedList.h
- * Descripción: Implementación de una lista doblemente enlazada utilizando nodos. 
- *              Proporciona operaciones de inserción, eliminación, búsqueda y manipulación de elementos.
- *
- * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+/**
+ * @file DLinkedList.h
+ * @brief Implementación de una lista doblemente enlazada utilizando nodos.
+ * 
+ * Proporciona operaciones de inserción, eliminación, búsqueda y manipulación de elementos.
+ * 
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
  */
 
 #pragma once

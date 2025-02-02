@@ -1,8 +1,11 @@
-/*
- * Archivo: Stack.h
- * Descripción: Interfaz para una pila (Stack) genérica, define métodos para apilar, desapilar y consultar elementos.
- * 
- * Autor: Profesor Mauricio Aviles Cisneros
+/**
+ * @file Stack.h
+ * @brief Interfaz para una pila (Stack) genérica.
+ *
+ * Esta interfaz define los métodos básicos para una estructura de pila,
+ * incluyendo operaciones como apilar, desapilar y consultar elementos.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
  */
 
 #pragma once
@@ -11,7 +14,9 @@
  * @brief Interfaz para una pila (Stack) genérica.
  *
  * Esta clase abstracta define la interfaz para una estructura de pila,
- * incluyendo métodos para apilar, desapilar y consultar elementos.
+ * incluyendo métodos para apilar, desapilar y consultar elementos. Las clases
+ * derivadas deben implementar estos métodos para proporcionar un comportamiento
+ * concreto.
  *
  * @tparam E Tipo de dato almacenado en la pila.
  */
@@ -34,13 +39,15 @@ private:
      *
      * @param other Otra instancia de Stack.
      */
-    void operator =(const Stack<E>& other) {} // Operador de asignación protegido
+    void operator=(const Stack<E>& other) {} // Operador de asignación protegido
 
 public:
     /**
      * @brief Constructor por defecto.
+     *
+     * Inicializa una pila vacía.
      */
-    Stack() {} 
+    Stack() {}
 
     /**
      * @brief Destructor virtual.
@@ -72,6 +79,8 @@ public:
 
     /**
      * @brief Elimina todos los elementos de la pila.
+     *
+     * Limpia la pila, dejándola vacía.
      */
     virtual void clear() = 0;
 
@@ -91,6 +100,8 @@ public:
 
     /**
      * @brief Imprime el contenido de la pila.
+     *
+     * Este método debe ser implementado para mostrar el estado de la pila.
      */
     virtual void print() = 0;
 };

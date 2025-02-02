@@ -1,9 +1,12 @@
-/* 
- * Archivo: SplayTree.h
- * Descripción: Clase que implementa un árbol Splay, una estructura de datos autoajustable que
- *              mueve los elementos recientemente accedidos a la raíz mediante operaciones de rotaci�n.
- * 
- * Autor: Profesor Mauricio Aviles Cisneros
+/**
+ * @file SplayTree.h
+ * @brief Implementación de un árbol Splay, una estructura de datos autoajustable.
+ *
+ * Un árbol Splay es un tipo de árbol binario de búsqueda que automáticamente mueve
+ * los elementos recientemente accedidos a la raíz mediante operaciones de rotación.
+ * Esto mejora el acceso a elementos frecuentemente utilizados.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
  */
 
 #pragma once
@@ -458,9 +461,9 @@ public:
     }
 
     /**
-     * @brief Retorna el tama�o del árbol (número de nodos).
+     * @brief Retorna el tamaño del árbol (número de nodos).
      *
-     * @return Tama�o del árbol.
+     * @return Tamaño del árbol.
      */
     int getSize() {
         return getSizeAux(root);
@@ -484,4 +487,3 @@ public:
         delete elements;
     }
 };
-

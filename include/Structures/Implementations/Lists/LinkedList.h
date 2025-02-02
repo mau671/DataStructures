@@ -1,9 +1,11 @@
-/*
- * Archivo: LinkedList.h
- * Descripción: Implementación de una lista enlazada simple con manejo de nodos libres.
- *              Proporciona operaciones de inserción, eliminación, búsqueda y manipulación de elementos.
- *
- * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+/**
+ * @file LinkedList.h
+ * @brief Implementación de una lista enlazada simple con manejo de nodos libres.
+ * 
+ * Proporciona operaciones de inserción, eliminación, búsqueda y manipulación de elementos.
+ * 
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
  */
 
 #pragma once

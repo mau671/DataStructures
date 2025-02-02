@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Configure with CMake",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "mkdir -p \"${workspaceFolder}/build\" && mkdir -p \"${workspaceFolder}/bin\" && cmake -S \"${workspaceFolder}\" -B \"${workspaceFolder}/build\""
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "detail": "Configura el proyecto con CMake"
+        },
+        {
+            "label": "Build with CMake",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "cmake --build \"${workspaceFolder}/build\" --config Release && rm -rf \"${workspaceFolder}/build/\" \"${workspaceFolder}/build/CMakeFiles\""
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Compila el proyecto usando CMake y limpia el caché"
+        }
+    ]
+}

@@ -1,9 +1,11 @@
-/*
- * Archivo: AVLTree.h
- * Descripción: Implementación de un árbol AVL, una estructura de datos de árbol binario de búsqueda
- *              autobalanceado que garantiza operaciones eficientes de inserción, eliminación y búsqueda.
- * 
- * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+/**
+ * @file AVLTree.h
+ * @brief Implementación de un árbol AVL, una estructura de datos de árbol binario de búsqueda autobalanceado.
+ *
+ * Garantiza operaciones eficientes de inserción, eliminación y búsqueda.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
  */
 
 #pragma once
@@ -20,6 +22,11 @@ using std::endl;
 
 /**
  * @brief Clase que implementa un árbol AVL.
+ *
+ * Un árbol AVL es un árbol binario de búsqueda autobalanceado que garantiza
+ * que la diferencia de altura entre los subárboles izquierdo y derecho de cualquier nodo
+ * sea como máximo 1. Esto asegura un rendimiento eficiente para operaciones de inserción,
+ * eliminación y búsqueda.
  *
  * @tparam E Tipo de los elementos almacenados en el árbol AVL.
  */

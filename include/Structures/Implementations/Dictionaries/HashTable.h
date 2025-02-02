@@ -1,9 +1,10 @@
-/*
- * Archivo: HashTable.h
- * Descripción: Clase que implementa una tabla de hash genérica utilizando encadenamiento
- *              para manejar colisiones. Permite insertar, eliminar y recuperar pares clave-valor.
+/**
+ * @file HashTable.h
+ * @brief Clase que implementa una tabla de hash genérica utilizando encadenamiento para manejar colisiones.
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros
+ * Permite insertar, eliminar y recuperar pares clave-valor.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
  */
 
 #pragma once

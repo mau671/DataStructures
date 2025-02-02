@@ -1,8 +1,12 @@
-/*
- * Archivo: PriorityQueue.h
- * Descripción: Interfaz de una cola de prioridad genérica. 
+/**
+ * @file PriorityQueue.h
+ * @brief Interfaz para una cola de prioridad genérica.
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros
+ * Esta interfaz define los métodos básicos para una cola de prioridad, que permiten insertar
+ * elementos con una prioridad asociada, obtener el elemento con la mínima prioridad, eliminar
+ * dicho elemento, y gestionar el estado de la cola.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
  */
 
 #pragma once
@@ -12,7 +16,8 @@
  *
  * Esta interfaz define los métodos básicos para una cola de prioridad, que permiten insertar
  * elementos con una prioridad asociada, obtener el elemento con la mínima prioridad, eliminar
- * dicho elemento, y gestionar el estado de la cola.
+ * dicho elemento, y gestionar el estado de la cola. Las clases derivadas deben implementar
+ * estos métodos para proporcionar un comportamiento concreto.
  *
  * @tparam E Tipo de dato almacenado en la cola de prioridad.
  */
@@ -35,23 +40,28 @@ private:
      *
      * @param other Otra instancia de PriorityQueue.
      */
-    void operator =(const PriorityQueue<E>& other) {}
+    void operator=(const PriorityQueue<E>& other) {}
 
 public:
     /**
      * @brief Constructor por defecto.
+     *
+     * Inicializa una cola de prioridad vacía.
      */
     PriorityQueue() {}
 
     /**
      * @brief Destructor virtual.
+     *
+     * Asegura que los recursos se liberen correctamente en las clases derivadas.
      */
     virtual ~PriorityQueue() {}
 
     /**
      * @brief Inserta un elemento en la cola de prioridad.
      *
-     * Inserta el elemento con la prioridad especificada.
+     * Inserta el elemento con la prioridad especificada. Los elementos con menor valor
+     * de prioridad tienen mayor precedencia.
      *
      * @param element Elemento a insertar.
      * @param priority Prioridad asociada al elemento.
@@ -74,6 +84,8 @@ public:
 
     /**
      * @brief Elimina todos los elementos de la cola.
+     *
+     * Limpia la cola de prioridad, dejándola vacía.
      */
     virtual void clear() = 0;
 
@@ -93,6 +105,8 @@ public:
 
     /**
      * @brief Imprime el contenido de la cola de prioridad.
+     *
+     * Este método debe ser implementado para mostrar el estado de la cola.
      */
     virtual void print() = 0;
 };

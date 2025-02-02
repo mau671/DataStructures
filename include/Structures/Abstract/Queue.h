@@ -1,8 +1,12 @@
-/*
- * Archivo: Queue.h
- * Descripción: Interfaz de una cola genérica.
+/**
+ * @file Queue.h
+ * @brief Interfaz para una cola genérica.
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros
+ * Esta interfaz define los métodos básicos para una estructura de cola, incluyendo operaciones
+ * estándar como insertar, eliminar y consultar elementos. Además, se incluyen métodos adicionales
+ * para soportar operaciones de doble extremo (Deque).
+ *
+ * @author Profesor Mauricio Aviles Cisneros
  */
 
 #pragma once
@@ -13,7 +17,8 @@
  * Esta clase abstracta define la interfaz básica para una estructura de cola,
  * incluyendo métodos para operaciones estándar como insertar, eliminar y
  * consultar elementos. Además, se incluyen métodos adicionales para soportar
- * operaciones de doble extremo (Deque).
+ * operaciones de doble extremo (Deque). Las clases derivadas deben implementar
+ * estos métodos para proporcionar un comportamiento concreto.
  *
  * @tparam E Tipo de dato almacenado en la cola.
  */
@@ -41,6 +46,8 @@ private:
 public:
     /**
      * @brief Constructor por defecto.
+     *
+     * Inicializa una cola vacía.
      */
     Queue() {} // Default constructor
 
@@ -76,6 +83,8 @@ public:
 
     /**
      * @brief Remueve todos los elementos de la cola.
+     *
+     * Limpia la cola, dejándola vacía.
      */
     virtual void clear() = 0; // Remover todos los elementos de la cola
 
@@ -95,6 +104,8 @@ public:
 
     /**
      * @brief Imprime el contenido de la cola.
+     *
+     * Este método debe ser implementado para mostrar el estado de la cola.
      */
     virtual void print() = 0; // Imprimir la cola
 

@@ -1,9 +1,11 @@
-/*
- * Archivo: AVLDictionary.h
- * Descripción: Clase que implementa un diccionario utilizando un árbol AVL.
- *              Permite insertar, eliminar y recuperar pares clave-valor.
+/**
+ * @file AVLDictionary.h
+ * @brief Clase que implementa un diccionario utilizando un árbol AVL.
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+ * Permite insertar, eliminar y recuperar pares clave-valor.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
  */
 
 #pragma once

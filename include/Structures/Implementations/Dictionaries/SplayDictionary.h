@@ -1,9 +1,12 @@
-/*
- * Archivo: SplayDictionary.h
- * Descripción: Clase que implementa un diccionario utilizando un árbol Splay.
- *              Permite insertar, eliminar y recuperar pares clave-valor.
+/**
+ * @file SplayDictionary.h
+ * @brief Clase que implementa un diccionario utilizando un árbol Splay.
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas, Josué Meza Solano
+ * Permite insertar, eliminar y recuperar pares clave-valor.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
+ * @author Josué Meza Solano
  */
 
 #pragma once

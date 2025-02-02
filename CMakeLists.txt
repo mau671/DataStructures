@@ -1,48 +1,35 @@
-cmake_minimum_required(VERSION 3.29)
+# Versión mínima de CMake requerida
+cmake_minimum_required(VERSION 3.10)
+
+# Nombre del proyecto
 project(DataStructures)
 
-cmake_minimum_required(VERSION 3.29)
-project(DataStructures)
+# Configuración de las rutas de inclusión
+set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+include_directories(${INCLUDE_DIR})
 
-set(CMAKE_CXX_STANDARD 14)
+# Directorio de código fuente
+set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 
-# Incluir directorios de encabezados
-include_directories(include)
+# Directorio de salida para los ejecutables
+set(BIN_DIR ${CMAKE_SOURCE_DIR}/bin)
 
-# Agregar archivos de encabezado y fuentes organizados en carpetas
-add_executable(DataStructures
-        # Archivos de implementación en `src`
-        src/Diccionarios.cpp
+# Obtener todos los archivos .cpp en el directorio src y sus subdirectorios
+file(GLOB_RECURSE SRC_FILES "${SRC_DIR}/*.cpp")
 
-        # Archivos de encabezado de estructuras abstractas
-        include/Structures/Abstract/Dictionary.h
-        include/Structures/Abstract/List.h
+# Crear un ejecutable para cada archivo .cpp
+foreach(SRC_FILE ${SRC_FILES})
+    # Obtener el nombre base del archivo sin la extensión
+    get_filename_component(EXECUTABLE_NAME ${SRC_FILE} NAME_WE)
 
-        # Archivos de encabezado de estructuras concretas: Diccionarios
-        include/Structures/Implementations/Dictionaries/AVLDictionary.h
-        include/Structures/Implementations/Dictionaries/BSTDictionary.h
-        include/Structures/Implementations/Dictionaries/HashTable.h
-        include/Structures/Implementations/Dictionaries/UnsortedArrayDictionary.h
+    # Crear el ejecutable
+    add_executable(${EXECUTABLE_NAME} ${SRC_FILE})
 
-        # Archivos de encabezado de estructuras concretas: Listas
-        include/Structures/Implementations/Lists/ArrayList.h
-        include/Structures/Implementations/Lists/DLinkedList.h
+    # Especificar la ubicación del ejecutable
+    set_target_properties(${EXECUTABLE_NAME} PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${BIN_DIR}
+    )
+endforeach()
 
-        # Archivos de encabezado de estructuras concretas: Árboles
-        include/Structures/Implementations/Trees/AVLTree.h
-        include/Structures/Implementations/Trees/BSTree.h
-        include/Structures/Implementations/Trees/SplayTree.h
-
-        # Archivos de nodos
-        include/Structures/Common/Nodes/BSTNode.h
-        include/Structures/Common/Nodes/DNode.h
-        include/Structures/Common/Nodes/SNode.h
-
-        # Archivos adicionales
-        include/Structures/Common/KVPair.h
-)
-
-# Incluir directorios con rutas cortas
-target_include_directories(DataStructures PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
+# Mensaje informativo
+message(STATUS "Ejecutables serán generados en: ${BIN_DIR}")

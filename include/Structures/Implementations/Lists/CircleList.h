@@ -1,10 +1,11 @@
-/*
- * Archivo: CircleList.h
- * Descripción: Implementación de una lista circular utilizando nodos enlazados.
- *              Proporciona operaciones de inserción, eliminación, búsqueda y
- *              manipulación de elementos.
+/**
+ * @file CircleList.h
+ * @brief Implementación de una lista circular utilizando nodos enlazados.
  *
- * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+ * Proporciona operaciones de inserción, eliminación, búsqueda y manipulación de elementos.
+ *
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
  */
 
 #pragma once

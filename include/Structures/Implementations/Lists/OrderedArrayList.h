@@ -1,13 +1,15 @@
-/*
- * Archivo: OrderedArrayList.h
- * Descripción: Implementación de una lista ordenada utilizando un ArrayList.
- *              Proporciona operaciones de inserción, eliminación, búsqueda y
- * 			    manipulación de elementos.
- *
- * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+/**
+ * @file OrderedArrayList.h
+ * @brief Implementación de una lista ordenada utilizando un ArrayList.
+ * 
+ * Proporciona operaciones de inserción, eliminación, búsqueda y manipulación de elementos.
+ * 
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
  */
 
 #pragma once
+
 #include "Structures/Implementations/Lists/ArrayList.h"
 
 /**
@@ -218,5 +220,12 @@ public:
      */
     void set(E element) {
         data->set(element);
+    }
+
+    /**
+     * @brief Imprime los elementos de la lista en la consola.
+     */
+    void print() {
+        data->print();
     }
 };

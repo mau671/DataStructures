@@ -1,12 +1,15 @@
-/*
- * Archivo: SortedArrayList.h
- * Descripción: Implementación de una lista ordenada utilizando un arreglo dinámico.
- * 			    Proporciona operaciones de inserción y agregación de elementos.S
- *
- * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+/**
+ * @file SortedArrayList.h
+ * @brief Implementación de una lista ordenada utilizando un arreglo dinámico.
+ * 
+ * Proporciona operaciones de inserción y agregación de elementos, manteniendo el orden ascendente.
+ * 
+ * @author Profesor Mauricio Aviles Cisneros
+ * @author Mauricio González Prendas
  */
 
 #pragma once
+
 #include "Structures/Implementations/Lists/ArrayList.h"
 
 /**
