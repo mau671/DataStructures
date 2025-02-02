@@ -1,281 +1,346 @@
+/*
+ * Archivo: AVLTree.h
+ * Descripción: Implementación de un árbol AVL, una estructura de datos de árbol binario de búsqueda
+ *              autobalanceado que garantiza operaciones eficientes de inserción, eliminación y búsqueda.
+ * 
+ * Autor(es): Profesor Mauricio Aviles Cisneros, Mauricio González Prendas
+ */
+
 #pragma once
+
 #include <iostream>
 #include <stdexcept>
-#include <vector>
-#include <queue>
-#include "Structures/Common/Nodes/BSTNode.h"
+#include <algorithm>
+#include "Structures/Common/Nodes/AVLNode.h"
 #include "Structures/Implementations/Lists/DLinkedList.h"
-#include "Structures/Implementations/Queues/LinkedQueue.h"
-
 
 using std::runtime_error;
 using std::cout;
 using std::endl;
-using std::vector;
-using std::queue;
 
+/**
+ * @brief Clase que implementa un árbol AVL.
+ *
+ * @tparam E Tipo de los elementos almacenados en el árbol AVL.
+ */
 template <typename E>
 class AVLTree {
 private:
-	AVLTree(const AVLTree<E>& other) {}
-	void operator =(const AVLTree<E>& other) {}
+    // El árbol AVL no permite copia ni asignación
+    AVLTree(const AVLTree<E>& other) {}
+    void operator=(const AVLTree<E>& other) {}
 
-	BSTNode<E>* root;
-	int rotationCount;
+    AVLNode<E>* root; ///< Puntero a la raíz del árbol AVL.
+    int rotationCount; ///< Contador de las rotaciones realizadas para mantener el balance.
 
-	BSTNode<E>* insertAux(BSTNode<E>* current, E element) {
-		if (current == nullptr)
-			return new BSTNode<E>(element);
-		// el siguiente if puede eliminarse si la estructura
-		// permite elementos repetidos.
-		if (element == current->element)
-			throw runtime_error("Duplicated element.");
-		if (element < current->element) {
-			current->left = insertAux(current->left, element);
-			return rebalanceLeft(current);
-		}
-		else {
-			current->right = insertAux(current->right, element);
-			return rebalanceRight(current);
-		}
+    /**
+     * @brief Función auxiliar para insertar un elemento en el árbol.
+     * @param current Nodo actual en el recorrido del árbol.
+     * @param element Elemento a insertar.
+     * @return Puntero al nodo actualizado después de la inserción.
+     * @throw runtime_error Si el elemento ya existe en el árbol.
+     */
+    AVLNode<E>* insertAux(AVLNode<E>* current, E element) {
+        if (current == nullptr)
+            return new AVLNode<E>(element);
 
-	}
-	bool containsAux(BSTNode<E>* current, E element) {
-		if (current == nullptr)
-			return false;
-		if (element == current->element)
-			return true;
-		if (element < current->element)
-			return containsAux(current->left, element);
-		else
-			return containsAux(current->right, element);
-	}
-	E findAux(BSTNode<E>* current, E element) {
-		if (current == nullptr)
-			throw runtime_error("Element not found.");
-		if (element == current->element)
-			return current->element;
-		if (element < current->element)
-			return findAux(current->left, element);
-		else
-			return findAux(current->right, element);
-	}
-	BSTNode<E>* removeAux(BSTNode<E>* current, E element, E* result) {
-		if (current == nullptr)
-			throw runtime_error("Element not found.");
-		if (element < current->element) {
-			current->left = removeAux(current->left, element, result);
-			return rebalanceRight(current);
-		}
-		if (element > current->element) {
-			current->right = removeAux(current->right, element, result);
-			return rebalanceLeft(current);
-		}
-		else { // es igual
-			*result = current->element;
-			int childrenCount = current->childrenCount();
-			if (childrenCount == 0) {
-				delete current;
-				return nullptr;
-			}
-			if (childrenCount == 1) {
-				BSTNode<E>* child = current->onlyChild();
-				delete current;
-				return child;
-			}
-			else { // tiene dos hijos
-				BSTNode<E>* successor = findMin(current->right);
-				swap(current, successor);
-				current->right = removeAux(current->right, element, result);
-				return current;
-			}
-		}
-	}
-	BSTNode<E>* findMin(BSTNode<E>* current) {
-		while (current->left != nullptr)
-			current = current->left;
-		return current;
-	}
-	void swap(BSTNode<E>* n1, BSTNode<E>* n2) {
-		E temp = n1->element;
-		n1->element = n2->element;
-		n2->element = temp;
-	}
-	void clearAux(BSTNode<E>* current) {
-		if (current == nullptr)
-			return;
-		clearAux(current->left);
-		clearAux(current->right);
-		delete current;
-	}
-	void getElementsAux(BSTNode<E>* current, List<E>* elements) {
-		if (current == nullptr)
-			return;
-		getElementsAux(current->left, elements);
-		elements->append(current->element);
-		getElementsAux(current->right, elements);
-	}
-	int getSizeAux(BSTNode<E>* current) {
-		if (current == nullptr)
-			return 0;
-		return 1 + getSizeAux(current->left) + getSizeAux(current->right);
-	}
-	// Incrementa el contador de rotaciones en los métodos de rotación
-	BSTNode<E>* rotateRight(BSTNode<E>* current) {
-		if (current->left == nullptr)
-			throw runtime_error("Can't rotate right with null left child.");
-		BSTNode<E>* temp = current->left;
-		current->left = temp->right;
-		temp->right = current;
-		rotationCount++; // Contar rotación
-		return temp;
-	}
+        if (element == current->element)
+            throw runtime_error("Duplicated element.");
 
-	BSTNode<E>* rotateLeft(BSTNode<E>* current) {
-		if (current->right == nullptr)
-			throw runtime_error("Can't rotate left with null right child.");
-		BSTNode<E>* temp = current->right;
-		current->right = temp->left;
-		temp->left = current;
-		rotationCount++; // Contar rotación
-		return temp;
-	}
+        if (element < current->element) {
+            current->left = insertAux(current->left, element);
+        } else {
+            current->right = insertAux(current->right, element);
+        }
 
-	int height(BSTNode<E>* current) {
-		if (current == nullptr)
-			return 0;
-		int lh = height(current->left);
-		int rh = height(current->right);
-		return 1 + (lh > rh? lh : rh);
-	}
-	BSTNode<E>* rebalanceLeft(BSTNode<E>* current) {
-		int lh = height(current->left);
-		int rh = height(current->right);
-		if (lh - rh > 1) {
-			int llh = height(current->left->left);
-			int lrh = height(current->left->right);
-			if (llh >= lrh) {
-				return rotateRight(current);
-			}
-			else {
-				current->left = rotateLeft(current->left);
-				return rotateRight(current);
-			}
-		}
-		return current;
-	}
-	BSTNode<E>* rebalanceRight(BSTNode<E>* current) {
-		int rh = height(current->right);
-		int lh = height(current->left);
-		if (rh - lh > 1) {
-			int rrh = height(current->right->right);
-			int rlh = height(current->right->left);
-			if (rrh >= rlh) {
-				return rotateLeft(current);
-			}
-			else {
-				current->right = rotateRight(current->right);
-				return rotateLeft(current);
-			}
-		}
-		return current;
-	}
+        current->updateHeight();
+        return rebalance(current);
+    }
 
-	// Función auxiliar para contar hojas y nodos internos
-	void countNodes(BSTNode<E>* current, int& leaves, int& internals) const {
-		if (current == nullptr) return;
-		if (current->left == nullptr && current->right == nullptr) {
-			leaves++;
-		} else {
-			internals++;
-			countNodes(current->left, leaves, internals);
-			countNodes(current->right, leaves, internals);
-		}
-	}
+    /**
+     * @brief Función auxiliar para verificar si el árbol contiene un elemento.
+     * @param current Nodo actual en el recorrido del árbol.
+     * @param element Elemento a buscar.
+     * @return true si el elemento se encuentra, false en caso contrario.
+     */
+    bool containsAux(AVLNode<E>* current, E element) {
+        if (current == nullptr)
+            return false;
+        if (element == current->element)
+            return true;
+        if (element < current->element)
+            return containsAux(current->left, element);
+        else
+            return containsAux(current->right, element);
+    }
+
+    /**
+     * @brief Función auxiliar para encontrar un elemento en el árbol.
+     * @param current Nodo actual en el recorrido del árbol.
+     * @param element Elemento a buscar.
+     * @return El elemento encontrado.
+     * @throw runtime_error Si el elemento no se encuentra en el árbol.
+     */
+    E findAux(AVLNode<E>* current, E element) {
+        if (current == nullptr)
+            throw runtime_error("Element not found.");
+        if (element == current->element)
+            return current->element;
+        if (element < current->element)
+            return findAux(current->left, element);
+        else
+            return findAux(current->right, element);
+    }
+
+    /**
+     * @brief Función auxiliar para eliminar un elemento del árbol.
+     * @param current Nodo actual en el recorrido del árbol.
+     * @param element Elemento a eliminar.
+     * @param result Puntero para almacenar el elemento eliminado.
+     * @return Puntero al nodo actualizado después de la eliminación.
+     * @throw runtime_error Si el elemento no se encuentra en el árbol.
+     */
+    AVLNode<E>* removeAux(AVLNode<E>* current, E element, E* result) {
+        if (current == nullptr)
+            throw runtime_error("Element not found.");
+
+        if (element < current->element) {
+            current->left = removeAux(current->left, element, result);
+        } else if (element > current->element) {
+            current->right = removeAux(current->right, element, result);
+        } else {
+            *result = current->element;
+            int childrenCount = current->childrenCount();
+            if (childrenCount == 0) {
+                delete current;
+                return nullptr;
+            }
+            if (childrenCount == 1) {
+                AVLNode<E>* child = current->onlyChild();
+                delete current;
+                return child;
+            } else {
+                AVLNode<E>* successor = findMin(current->right);
+                swap(current, successor);
+                current->right = removeAux(current->right, element, result);
+            }
+        }
+
+        current->updateHeight();
+        return rebalance(current);
+    }
+
+    /**
+     * @brief Encuentra el nodo con el valor mínimo en un subárbol.
+     * @param current Nodo raíz del subárbol.
+     * @return Puntero al nodo con el valor mínimo.
+     */
+    AVLNode<E>* findMin(AVLNode<E>* current) {
+        while (current->left != nullptr)
+            current = current->left;
+        return current;
+    }
+
+    /**
+     * @brief Intercambia los valores de dos nodos.
+     * @param n1 Primer nodo.
+     * @param n2 Segundo nodo.
+     */
+    void swap(AVLNode<E>* n1, AVLNode<E>* n2) {
+        E temp = n1->element;
+        n1->element = n2->element;
+        n2->element = temp;
+    }
+
+    /**
+     * @brief Función auxiliar para limpiar el árbol y liberar memoria.
+     * @param current Nodo actual en el recorrido del árbol.
+     */
+    void clearAux(AVLNode<E>* current) {
+        if (current == nullptr)
+            return;
+        clearAux(current->left);
+        clearAux(current->right);
+        delete current;
+    }
+
+    /**
+     * @brief Función auxiliar para obtener todos los elementos del árbol en orden.
+     * @param current Nodo actual en el recorrido del árbol.
+     * @param elements Lista donde se almacenarán los elementos.
+     */
+    void getElementsAux(AVLNode<E>* current, List<E>* elements) {
+        if (current == nullptr)
+            return;
+        getElementsAux(current->left, elements);
+        elements->append(current->element);
+        getElementsAux(current->right, elements);
+    }
+
+    /**
+     * @brief Función auxiliar para calcular el tamaño del árbol.
+     * @param current Nodo actual en el recorrido del árbol.
+     * @return Número de nodos en el subárbol.
+     */
+    int getSizeAux(AVLNode<E>* current) {
+        if (current == nullptr)
+            return 0;
+        return 1 + getSizeAux(current->left) + getSizeAux(current->right);
+    }
+
+    /**
+     * @brief Realiza una rotación hacia la derecha en un nodo.
+     * @param current Nodo sobre el cual se realizará la rotación.
+     * @return Puntero al nodo actualizado después de la rotación.
+     */
+    AVLNode<E>* rotateRight(AVLNode<E>* current) {
+        AVLNode<E>* temp = current->left;
+        current->left = temp->right;
+        temp->right = current;
+        current->updateHeight();
+        temp->updateHeight();
+        rotationCount++;
+        return temp;
+    }
+
+    /**
+     * @brief Realiza una rotación hacia la izquierda en un nodo.
+     * @param current Nodo sobre el cual se realizará la rotación.
+     * @return Puntero al nodo actualizado después de la rotación.
+     */
+    AVLNode<E>* rotateLeft(AVLNode<E>* current) {
+        AVLNode<E>* temp = current->right;
+        current->right = temp->left;
+        temp->left = current;
+        current->updateHeight();
+        temp->updateHeight();
+        rotationCount++;
+        return temp;
+    }
+
+    /**
+     * @brief Rebalancea el subárbol si está desbalanceado.
+     * @param current Nodo raíz del subárbol.
+     * @return Puntero al nodo actualizado después del rebalanceo.
+     */
+    AVLNode<E>* rebalance(AVLNode<E>* current) {
+        int balance = current->balanceFactor();
+        if (balance > 1) {
+            if (current->left->balanceFactor() < 0)
+                current->left = rotateLeft(current->left);
+            return rotateRight(current);
+        }
+        if (balance < -1) {
+            if (current->right->balanceFactor() > 0)
+                current->right = rotateRight(current->right);
+            return rotateLeft(current);
+        }
+        return current;
+    }
 
 public:
-	AVLTree() {
-		root = nullptr;
-	}
-	~AVLTree() {
-		clear();
-	}
-	void insert(E element) {
-		root = insertAux(root, element);
-	}
-	bool contains(E element) {
-		return containsAux(root, element);
-	}
-	E find(E element) {
-		return findAux(root, element);
-	}
-	E remove(E element) {
-		E result;
-		root = removeAux(root, element, &result);
-		return result;
-	}
-	void clear() {
-		clearAux(root);
-		root = nullptr;
-	}
-	List<E>* getElements() {
-		List<E>* elements = new DLinkedList<E>();
-		getElementsAux(root, elements);
-		return elements;
-	}
-	int getSize() {
-		return getSizeAux(root);
-	}
-	void print() {
-		List<E>* elements = getElements();
-		elements->print();
-		delete elements;
-	}
-	int getHeight() {
-		return height(root);
-	}
+    /**
+     * @brief Constructor por defecto que inicializa un árbol AVL vacío.
+     */
+    AVLTree() {
+        root = nullptr;
+        rotationCount = 0;
+    }
 
-	// Método para obtener el número de hojas
-	int getLeafCount() const {
-		int leaves = 0, internals = 0;
-		countNodes(root, leaves, internals);
-		return leaves;
-	}
+    /**
+     * @brief Destructor que limpia el árbol y libera la memoria.
+     */
+    ~AVLTree() {
+        clear();
+    }
 
-	// Método para obtener el número de nodos internos
-	int getInternalNodeCount() const {
-		int leaves = 0, internals = 0;
-		countNodes(root, leaves, internals);
-		return internals;
-	}
+    /**
+     * @brief Inserta un elemento en el árbol.
+     * @param element Elemento a insertar.
+     */
+    void insert(E element) {
+        root = insertAux(root, element);
+    }
 
-	// Método para obtener el número de nodos por nivel
-	List<int>* getNodesPerLevel() const {
-		List<int>* levels = new DLinkedList<int>(); // Cambia esta línea si deseas usar otra implementación de lista
-		if (root == nullptr) return levels;
+    /**
+     * @brief Verifica si el árbol contiene un elemento.
+     * @param element Elemento a buscar.
+     * @return true si el elemento se encuentra en el árbol, false en caso contrario.
+     */
+    bool contains(E element) {
+        return containsAux(root, element);
+    }
 
-		LinkedQueue<BSTNode<E>*> q;
-		q.enqueue(root);
+    /**
+     * @brief Encuentra un elemento en el árbol.
+     * @param element Elemento a buscar.
+     * @return El elemento encontrado.
+     * @throw runtime_error Si el elemento no se encuentra en el árbol.
+     */
+    E find(E element) {
+        return findAux(root, element);
+    }
 
-		while (!q.isEmpty()) {
-			int levelSize = q.getSize();
-			levels->append(levelSize); // Añadir el tamaño del nivel actual a la lista de niveles
+    /**
+     * @brief Elimina un elemento del árbol.
+     * @param element Elemento a eliminar.
+     * @return El elemento eliminado.
+     * @throw runtime_error Si el elemento no se encuentra en el árbol.
+     */
+    E remove(E element) {
+        E result;
+        root = removeAux(root, element, &result);
+        return result;
+    }
 
-			for (int i = 0; i < levelSize; ++i) {
-				BSTNode<E>* node = q.dequeue(); // Desencolamos el nodo
-				if (node->left) q.enqueue(node->left);   // Encolamos el hijo izquierdo si existe
-				if (node->right) q.enqueue(node->right); // Encolamos el hijo derecho si existe
-			}
-		}
+    /**
+     * @brief Limpia el árbol y libera la memoria.
+     */
+    void clear() {
+        clearAux(root);
+        root = nullptr;
+    }
 
-		return levels;
-	}
+    /**
+     * @brief Obtiene todos los elementos del árbol en orden.
+     * @return Lista de elementos en orden.
+     */
+    List<E>* getElements() {
+        List<E>* elements = new DLinkedList<E>();
+        getElementsAux(root, elements);
+        return elements;
+    }
 
-	// Método para obtener el número de rotaciones
-	int getRotationCount() const {
-		return rotationCount;
-	}
+    /**
+     * @brief Obtiene el tamaño del árbol.
+     * @return Número de elementos en el árbol.
+     */
+    int getSize() {
+        return getSizeAux(root);
+    }
+
+    /**
+     * @brief Obtiene la altura del árbol.
+     * @return Altura del árbol.
+     */
+    int getHeight() {
+        return (root == nullptr) ? 0 : root->height;
+    }
+
+    /**
+     * @brief Obtiene el número de rotaciones realizadas.
+     * @return Número de rotaciones.
+     */
+    int getRotationCount() const {
+        return rotationCount;
+    }
+
+    /**
+     * @brief Imprime el contenido del árbol en orden.
+     */
+    void print() {
+        List<E>* elements = getElements();
+        elements->print();
+        delete elements;
+    }
 };
-
-
-
